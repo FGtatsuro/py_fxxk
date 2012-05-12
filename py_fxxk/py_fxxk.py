@@ -58,6 +58,7 @@ class BrainFxxk(object):
         while self.cur < len(self.src):
             ope = self.src[self.cur]
             try:
+                print '{0}:{1}'.format(self.cur, ope)
                 getattr(self, invert[ope])()
             except:
                 pass
@@ -83,9 +84,42 @@ class BrainFxxk(object):
         self.buf[self.ptr] = self.src[self.cur]
 
     def opn(self):
-        if self.buf[self.ptr] == 0:
-            self.cur = self.src.index(self.default_ope[u'cls'], self.cur) + 1
+        if self.buf[self.ptr] != 0:
+            return
+        self.cur = (
+                self._find_correspondence(
+                    self.src, 
+                    self.cur, 
+                    self.default_ope[u'opn'], 
+                    self.default_ope[u'cls']) 
+                + 1)
 
     def cls(self):
-        if self.buf[self.ptr] != 0:
-            self.cur = self.src.rindex(self.default_ope[u'opn'], 0, self.cur)
+        if self.buf[self.ptr] == 0:
+            return
+        _src = ''.join([s for s in reversed(self.src)])
+        _cur = len(_src) -1 - self.cur
+        self.cur = (
+                len(_src) - 1 -
+                self._find_correspondence(
+                    _src, 
+                    _cur, 
+                    self.default_ope[u'cls'], 
+                    self.default_ope[u'opn'])
+                )
+
+    def _find_correspondence(self, src, cur, start_code, end_code):
+        end_num = 1
+        while end_num > 0:
+            start_pos = src.find(start_code, cur + 1)
+            end_pos = src.find(end_code, cur + 1)
+            if end_pos == -1:
+                raise Exception("Syntax Error: Not Found '{0}' operation".format(end_code))
+            if start_pos == -1 or end_pos < start_pos:
+                cur = end_pos
+                end_num -= 1
+                continue
+            cur = start_pos
+            end_num += 1
+        return cur
+            

@@ -63,6 +63,42 @@ class test_bf(object):
         bf.src = u'[>>>>++]>>'        
         bf.opn()
         tools.eq_(8, bf.cur)
+
+    def test_opn_nest(self):
+        bf = BrainFxxk()
+        # for test, insert data
+        bf.src = u'[->[->>+<<]>>[-<+<+>>]<<<]<'
+        bf.ptr = 0
+
+        # buf[ptr] = 0
+        bf.buf[bf.ptr] = 0
+        # out
+        bf.cur = 0
+        bf.opn()
+        tools.eq_(26, bf.cur)
+        # in1
+        bf.cur = 3
+        bf.opn()
+        tools.eq_(11, bf.cur)
+        # in2
+        bf.cur = 13
+        bf.opn()
+        tools.eq_(22, bf.cur)
+
+        # ptr = 1
+        bf.buf[bf.ptr] = 1
+        # out
+        bf.cur = 0
+        bf.opn()
+        tools.eq_(0, bf.cur)
+        # in1
+        bf.cur = 3
+        bf.opn()
+        tools.eq_(3, bf.cur)
+        # in2
+        bf.cur = 13
+        bf.opn()
+        tools.eq_(13, bf.cur)
     
     def test_cls(self):
         bf = BrainFxxk()
@@ -73,6 +109,42 @@ class test_bf(object):
         bf.buf[0] = 2
         bf.cls()
         tools.eq_(0, bf.cur)
+
+    def test_cls_nest(self):
+        bf = BrainFxxk()
+        # for test, insert data
+        bf.src = u'[->[->>+<<]>>[-<+<+>>]<<<]<'
+        bf.ptr = 0
+
+        # ptr = 0
+        bf.buf[bf.ptr] = 0
+        # out
+        bf.cur = 25
+        bf.cls()
+        tools.eq_(25, bf.cur)
+        # in1
+        bf.cur = 10
+        bf.cls()
+        tools.eq_(10, bf.cur)
+        # in2
+        bf.cur = 21
+        bf.cls()
+        tools.eq_(21, bf.cur)
+
+        # ptr = 1
+        bf.buf[bf.ptr] = 1
+        # out
+        bf.cur = 25
+        bf.cls()
+        tools.eq_(0, bf.cur)
+        # in1
+        bf.cur = 10
+        bf.cls()
+        tools.eq_(3, bf.cur)
+        # in2
+        bf.cur = 21
+        bf.cls()
+        tools.eq_(13, bf.cur)
 
     def test_compile(self):
         test_ope = {
