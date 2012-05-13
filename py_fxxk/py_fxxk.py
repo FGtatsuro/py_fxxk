@@ -100,9 +100,9 @@ class BrainFxxk(object):
                     _cur, 
                     self.default_ope[u'opn'], 
                     self.default_ope[u'cls']) 
-                + 1)
+                )
         if self.debug:
-            print 'opn_cur:{0} -> cls_cur:{1} ptr:{2}'.format(_cur, self.cur - 1, self.ptr)
+            print 'opn_cur:{0} -> cls_cur:{1} ptr:{2}'.format(_cur, self.cur, self.ptr)
 
     def cls(self):
         if self.buf[self.ptr] == 0:

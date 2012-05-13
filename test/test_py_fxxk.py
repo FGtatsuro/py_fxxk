@@ -49,7 +49,7 @@ class test_bf(object):
         # for test, insert data
         bf.src = u'[>>>>++]>>'        
         bf.opn()
-        tools.eq_(8, bf.cur)
+        tools.eq_(7, bf.cur)
 
     def test_opn_nest(self):
         bf = BrainFxxk()
@@ -62,15 +62,15 @@ class test_bf(object):
         # out
         bf.cur = 0
         bf.opn()
-        tools.eq_(26, bf.cur)
+        tools.eq_(25, bf.cur)
         # in1
         bf.cur = 3
         bf.opn()
-        tools.eq_(11, bf.cur)
+        tools.eq_(10, bf.cur)
         # in2
         bf.cur = 13
         bf.opn()
-        tools.eq_(22, bf.cur)
+        tools.eq_(21, bf.cur)
 
         # ptr = 1
         bf.buf[bf.ptr] = 1
