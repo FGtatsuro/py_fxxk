@@ -17,7 +17,7 @@ class BrainFxxk(object):
         u'cls':u']',
     }
 
-    def __init__(self, ope={}, encode=u'utf-8', debug=True):
+    def __init__(self, ope={}, encode=u'utf-8', debug=False):
         self.ptr = 0
         self.cur = 0
         self.buf = [0] * 30000
@@ -48,7 +48,6 @@ class BrainFxxk(object):
             self.ope[k] = self._unicode(ope[k], self.encode)
 
     def fxxk(self, src):
-        self.__init__()
         try:
             with open(src) as f:
                 src = f.read()
