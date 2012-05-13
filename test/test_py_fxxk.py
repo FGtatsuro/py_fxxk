@@ -44,19 +44,6 @@ class test_bf(object):
         bf.dec()
         tools.eq_(-1, bf.buf[0])        
     
-    def test_put(self):
-        bf = BrainFxxk()
-        # for test, insert data
-        bf.buf[0] = 72       
-        bf.put()
-        tools.eq_(u'H', bf.out[0])
-
-    def test_get(self):
-        bf = BrainFxxk()
-        # for test, insert data
-        bf.src = u'a'       
-        bf.get()
-    
     def test_opn(self):
         bf = BrainFxxk()
         # for test, insert data

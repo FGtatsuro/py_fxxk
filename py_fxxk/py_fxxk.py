@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import re
+import sys
 
 class BrainFxxk(object):
 
@@ -84,10 +85,10 @@ class BrainFxxk(object):
             print self.buf[:11],'cur:{0},ptr:{1}'.format(self.cur,self.ptr)
 
     def put(self):
-        self.out.append(chr(self.buf[self.ptr]))
+        sys.stdout.write(chr(self.buf[self.ptr]))
 
     def get(self):
-        self.buf[self.ptr] = self.src[self.cur]
+        self.buf[self.ptr] = ord(sys.stdin.read(1))
 
     def opn(self):
         if self.buf[self.ptr] != 0:
