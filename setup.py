@@ -4,7 +4,7 @@
 from setuptools import setup
 setup(
         name='py_fxxk', 
-        version='0.1',
+        version='1.0',
         test_suite='nose.collector',
         )
 
