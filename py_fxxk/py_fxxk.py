@@ -16,13 +16,13 @@ class BrainFxxk(object):
         u'cls':u']',
     }
 
-    def __init__(self, ope={}, encode=u'utf-8'):
+    def __init__(self, ope={}, encode=u'utf-8', debug=True):
         self.ptr = 0
         self.cur = 0
         self.buf = [0] * 30000
         self.src = u''
-        self.out = []
         self.encode = encode
+        self.debug = debug
         self.set_ope(ope)
 
     def _unicode(self, src, encode):
@@ -58,24 +58,30 @@ class BrainFxxk(object):
         while self.cur < len(self.src):
             ope = self.src[self.cur]
             try:
-                print '{0}:{1}'.format(self.cur, ope)
                 getattr(self, invert[ope])()
             except:
                 pass
             self.cur += 1
-        print ''.join(self.out).encode(self.encode)
 
     def nxt(self):
         self.ptr += 1
+        if self.debug:
+            print 'ptr:{0} -> {1}'.format(self.ptr - 1, self.ptr)
 
     def prv(self):
         self.ptr -= 1
+        if self.debug:
+            print 'ptr:{0} -> {1}'.format(self.ptr + 1, self.ptr)
 
     def inc(self):
         self.buf[self.ptr] += 1
+        if self.debug:
+            print self.buf[:11],'cur:{0},ptr:{1}'.format(self.cur,self.ptr)
 
     def dec(self):
         self.buf[self.ptr] -= 1
+        if self.debug:
+            print self.buf[:11],'cur:{0},ptr:{1}'.format(self.cur,self.ptr)
 
     def put(self):
         self.out.append(chr(self.buf[self.ptr]))
@@ -86,13 +92,16 @@ class BrainFxxk(object):
     def opn(self):
         if self.buf[self.ptr] != 0:
             return
+        _cur = self.cur
         self.cur = (
                 self._find_correspondence(
                     self.src, 
-                    self.cur, 
+                    _cur, 
                     self.default_ope[u'opn'], 
                     self.default_ope[u'cls']) 
                 + 1)
+        if self.debug:
+            print 'opn_cur:{0} -> cls_cur:{1} ptr:{2}'.format(_cur, self.cur - 1, self.ptr)
 
     def cls(self):
         if self.buf[self.ptr] == 0:
@@ -107,6 +116,8 @@ class BrainFxxk(object):
                     self.default_ope[u'cls'], 
                     self.default_ope[u'opn'])
                 )
+        if self.debug:
+            print 'cls_cur:{0} -> opn_cur:{1} by ptr:{2}'.format(len(_src) -1 - _cur, self.cur, self.ptr)
 
     def _find_correspondence(self, src, cur, start_code, end_code):
         end_num = 1
